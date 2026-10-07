@@ -163,7 +163,7 @@
         html += '<button class="chip seed" data-seed="' + s.seed + '" aria-pressed="' +
           (s.seed === chosen) + '" title="' + esc(describe(s)) + '">' +
           '<span class="ttl">Seed ' + s.seed +
-          (s.seed === pack.published ? '<span class="tag">published</span>' : '') +
+          (s.seed === pack.published ? '<span class="seedtag">published</span>' : '') +
           '</span><span class="sub">' + esc(describe(s)) + '</span></button>';
       });
       html += '</div>';

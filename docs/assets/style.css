@@ -154,12 +154,16 @@ body {
 @media (max-width: 720px) {
   .appbar { gap: 8px; padding: 0 12px; }
   .appbar nav { flex: 1 1 0; min-width: 0; }
-  .appbar nav a, .appbar .bar-link { padding: 7px 9px; }
+  .appbar nav a { padding: 7px 9px; }
+  /* The menu keeps its right padding whatever the rest does: the caret is
+     positioned into that space, and without it the arrow sits on the word. */
+  .appbar .bar-link { padding: 7px 20px 7px 9px; }
 }
 /* Six links and a mark will not make two rows at phone width on the bar's
    ordinary type, and the third row is all whitespace for one link. */
 @media (max-width: 400px) {
-  .appbar nav a, .appbar .bar-link { font-size: 12.5px; padding: 7px 7px; }
+  .appbar nav a { font-size: 12.5px; padding: 7px 7px; }
+  .appbar .bar-link { font-size: 12.5px; padding: 7px 18px 7px 7px; }
 }
 .appbar nav a[aria-current="page"] { background: rgba(255, 255, 255, .14); color: var(--bar-ink); }
 
@@ -407,6 +411,34 @@ th {
 td { padding: 9px 12px; border-bottom: 1px solid var(--line-2); }
 tbody tr:hover td { background: var(--accent-weak); }
 .scroll { overflow-x: auto; }
+
+/* The booking list is eight columns, which on a phone pushed the time and the
+   room off the first screenful and left the module name occupying half of it.
+   The table still scrolls sideways; this just makes the columns worth seeing
+   the ones you land on. */
+@media (max-width: 700px) {
+  #lst { font-size: 12px; }
+  #lst th, #lst td { padding: 6px 8px; }
+  #lst td:nth-child(2) { max-width: 128px; }
+  #lst td:nth-child(2) .small { font-size: 10px; }
+
+  /* Room needs is three columns, one of them the dropdown the whole page
+     exists to set. Squeezed into a phone the table put every word of the
+     module on its own line and cut the menu down to a single letter; pushed
+     into a sideways scroller it put the menu off screen, which is worse. So
+     on a phone each row stacks: what the class is, where it meets, and the
+     menu across the full width under them. */
+  #tbl, #tbl tbody, #tbl tr, #tbl td { display: block; width: auto; }
+  #tbl thead { display: none; }
+  #tbl tr { border-bottom: 1px solid var(--line-2); padding: 11px 2px; }
+  #tbl td { border: 0; padding: 1px 0; }
+  #tbl td:last-child::before {
+    content: 'Needs'; display: block;
+    font-size: 11px; font-weight: 600; color: var(--muted);
+    margin: 8px 0 3px;
+  }
+  #tbl td select { width: 100%; }
+}
 
 .tag {
   display: inline-block;
@@ -748,7 +780,10 @@ a.tab { text-decoration: none; }
 .chip.seed .ttl { display: flex; align-items: center; gap: 6px; }
 .chip.seed .sub { font-size: 11px; color: var(--muted); font-weight: 400; }
 .chip.seed[aria-pressed="true"] .sub { color: inherit; opacity: .8; }
-.chip.seed .tag {
+/* Its own class, not .tag: that one is the 9x9 colour swatch the room legend
+   uses, and a word squeezed into a 9px box spills over its own border. */
+.chip.seed .seedtag {
+  display: inline-block;
   font-size: 10px; text-transform: uppercase; letter-spacing: .04em;
   border: 1px solid currentColor; border-radius: 3px; padding: 0 4px;
   opacity: .7; font-weight: 600;

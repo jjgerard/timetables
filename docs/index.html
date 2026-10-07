@@ -128,7 +128,12 @@
   var TABS = ['method', 'autumn', 'springNow', 'springNew'];
   var TERM_TABS = ['autumn', 'springNow', 'springNew', 'autumnNew'];
 
-  var H = null, tab = 'method', view = 'grid';
+  // A five-day week grid on a phone gives each class a column two characters
+  // wide — "LA", "PU" — which is not a timetable. The list says the same thing
+  // in rows that fit, so narrow screens open on it; the toggle is unchanged
+  // and the grid is one tap away, still scrolling sideways.
+  var NARROW = window.matchMedia && window.matchMedia('(max-width: 700px)').matches;
+  var H = null, tab = 'method', view = NARROW ? 'list' : 'grid';
   var state = { progs: new Set(), modules: new Set(), rooms: new Set(), weeks: null, days: new Set(), changed: false, split: false };
 
   function esc(s) {
@@ -347,7 +352,9 @@
       var va = val(a), vb = val(b);
       return (va > vb ? 1 : va < vb ? -1 : 0) * sortDir;
     });
-    var CAP = 800, show = sorted.slice(0, CAP);
+    // Phones land on this view, so the unfiltered first paint is 800 rows of
+    // table unless it is cut. The note below already says what to do about it.
+    var CAP = NARROW ? 200 : 800, show = sorted.slice(0, CAP);
     tb.innerHTML = show.map(function (r) {
       var room = H.model.rooms[r.room] || { name: '?', type: 'general' };
       var chTxt = r.changed ? ['d', 't', 'r'].filter(function (x) { return r.changed.indexOf(x) >= 0; })
@@ -946,6 +953,13 @@
     });
 
     var vg = document.getElementById('v-grid'), vl = document.getElementById('v-list');
+    if (view === 'list') {
+      // Match the markup to the view chosen above, without rendering: the
+      // first render runs on its own a moment later.
+      vl.setAttribute('aria-pressed', 'true'); vg.setAttribute('aria-pressed', 'false');
+      document.getElementById('view-list').hidden = false;
+      document.getElementById('view-grid').hidden = true;
+    }
     vg.onclick = function () {
       view = 'grid';
       vg.setAttribute('aria-pressed', 'true'); vl.setAttribute('aria-pressed', 'false');
