@@ -1,5 +1,10 @@
 # Belfast Campus Timetabling — Handoff Pack
 
+> The files in this folder are **Ulster University's own data** — its timetables, room
+> inventory and the corrections timetabling supplied. The repository's MIT licence covers
+> the code; it does not cover these, and nothing here claims ownership of them. They are
+> included so the results can be checked and reproduced.
+
 Snapshot of the **current Spring 2026** Ulster Belfast timetable, tagged with everything needed to
 re-solve it from scratch. Goal of the project: give **every class a single room** (today many are
 split across 2–3 rooms) while breaking no student/staff clash.

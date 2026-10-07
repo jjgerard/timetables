@@ -145,3 +145,12 @@ answer**, one inside British Summer Time and one after the clock change.
 
 `parse.js` and `analyse.js` are pure and tested directly with `node test.js`; `content.js`
 holds the auth capture, the API calls and the panel.
+
+## Licence, and what it covers
+
+The MIT licence covers the code.
+
+`timetable/data/` is **Ulster University's own data** — its timetables, room inventory and
+the corrections timetabling supplied. It is not the author's to license, and nothing here
+claims ownership of it. It sits in the repository so the results can be checked and
+reproduced.
